@@ -4,44 +4,15 @@ import HeaderNav from "../components/template/HeaderNav/HeaderNav";
 import SearchFilter from "../components/Layouts/ProductsList/SearchFilter";
 import Pagination from "../components/Layouts/ProductsList/Pagination";
 import ProductTable from "../components/Layouts/ProductsList/ProductTable";
-import EditModal from "../components/Layouts/ProductsList/EditModal";
 import { X } from "lucide-react";
 import Card from "../components/Fragments/Card";
 import HeaderProductList from "../components/Layouts/ProductsList/HeaderProductList";
+import { getProducts } from "../components/utils/products";
+import FormEdit from "../components/Fragments/FormEdit";
 
 export default function ProductList() {
-  const [products] = useState([
-    {
-      id: "PRD001",
-      image: "/api/placeholder/80/80",
-      name: "Nike Air Max",
-      price: 1499000,
-      type: "Shoes",
-      status: "ready",
-      quantity: 25,
-      description: "Premium running shoes with air cushioning.",
-    },
-    {
-      id: "PRD002",
-      image: "/api/placeholder/80/80",
-      name: "Adidas Ultraboost",
-      price: 2299000,
-      type: "Shoes",
-      status: "pending",
-      quantity: 10,
-      description: "High-performance running shoes with boost technology.",
-    },
-    {
-      id: "PRD003",
-      image: "/api/placeholder/80/80",
-      name: "Puma RS-X",
-      price: 1299000,
-      type: "Shoes",
-      status: "soldout",
-      quantity: 0,
-      description: "Retro-style sneakers with modern comfort.",
-    },
-  ]);
+  const [products, setProducts] = useState(getProducts);
+  const ItemsPerPage = 10;
 
   // State management
   const [searchQuery, setSearchQuery] = useState("");
@@ -55,25 +26,19 @@ export default function ProductList() {
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  const itemsPerPage = 5;
-
-  // Filters and search
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch =
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.id.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus =
-      statusFilter === "all" || product.status === statusFilter;
-    const matchesType = typeFilter === "all" || product.type === typeFilter;
-    return matchesSearch && matchesStatus && matchesType;
-  });
-
-  // Pagination
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-  const paginatedProducts = filteredProducts.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+  // Data produk yang ditampilkan berdasarkan halaman aktif
+  const currentProducts = products.slice(
+    (currentPage - 1) * ItemsPerPage,
+    currentPage * ItemsPerPage
   );
+
+  // Hitung total halaman
+  const totalPages = Math.ceil(products.length / ItemsPerPage);
+
+  // Fungsi untuk navigasi halaman
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -88,9 +53,19 @@ export default function ProductList() {
     }
   };
 
+  // Fungsi edit produk
   const handleEdit = (product) => {
     setSelectedProduct(product);
     setIsEditModalOpen(true);
+  };
+
+  const handleSaveChanges = (updatedProduct) => {
+    setProducts((prevProducts) =>
+      prevProducts.map((product) =>
+        product.id === updatedProduct.id ? updatedProduct : product
+      )
+    );
+    setIsEditModalOpen(false);
   };
 
   const handleDelete = (product) => {
@@ -147,10 +122,13 @@ export default function ProductList() {
           <HeaderNav />
 
           <main className="p-6">
-
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { title: "Total Products", value: "1,234", color: "bg-blue-500" },
+                {
+                  title: "Total Products",
+                  value: "1,234",
+                  color: "bg-blue-500",
+                },
                 {
                   title: "Quantity",
                   value: "567",
@@ -184,7 +162,7 @@ export default function ProductList() {
 
               {/* Product Table */}
               <ProductTable
-                products={products}
+                products={currentProducts}
                 formatPrice={formatPrice}
                 getStatusColor={getStatusColor}
                 handleEdit={handleEdit}
@@ -197,16 +175,15 @@ export default function ProductList() {
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
-                setCurrentPage={setCurrentPage}
-                filteredProducts={filteredProducts}
-                itemsPerPage={itemsPerPage}
+                handlePageChange={handlePageChange}
               />
 
               {/* Edit Modal */}
               {isEditModalOpen && (
-                <EditModal
+                <FormEdit
                   selectedProduct={selectedProduct}
                   setIsEditModalOpen={setIsEditModalOpen}
+                  onSave={handleSaveChanges}
                 />
               )}
 

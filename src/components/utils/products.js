@@ -1,10 +1,11 @@
-const products = [
+const getProducts = [
   {
     id: "PRD001",
     name: "Classic White T-shirt",
     price: 150000,
     quantity: 50,
     type: "T-shirts",
+    status: "ready",
     image: "images/tshirts/classic-white-tshirt.jpg",
   },
   {
@@ -13,6 +14,7 @@ const products = [
     price: 180000,
     quantity: 45,
     type: "T-shirts",
+    status: "ready",
     image: "images/tshirts/striped-polo-shirt.jpg",
   },
   {
@@ -21,6 +23,7 @@ const products = [
     price: 170000,
     quantity: 60,
     type: "T-shirts",
+    status: "ready",
     image: "images/tshirts/graphic-oversized-tee.jpg",
   },
   {
@@ -29,6 +32,7 @@ const products = [
     price: 140000,
     quantity: 40,
     type: "T-shirts",
+    status: "ready",
     image: "images/tshirts/cotton-v-neck-tee.jpg",
   },
   {
@@ -37,6 +41,7 @@ const products = [
     price: 150000,
     quantity: 55,
     type: "T-shirts",
+    status: "ready",
     image: "images/tshirts/black-crewneck-tee.jpg",
   },
   {
@@ -45,6 +50,7 @@ const products = [
     price: 160000,
     quantity: 35,
     type: "T-shirts",
+    status: "ready",
     image: "images/tshirts/vintage-print-tee.jpg",
   },
   {
@@ -53,6 +59,7 @@ const products = [
     price: 145000,
     quantity: 25,
     type: "T-shirts",
+    status: "pending",
     image: "images/tshirts/slim-fit-tshirt.jpg",
   },
   {
@@ -61,6 +68,7 @@ const products = [
     price: 190000,
     quantity: 30,
     type: "T-shirts",
+    status: "pending",
     image: "images/tshirts/long-sleeve-tshirt.jpg",
   },
   {
@@ -69,6 +77,7 @@ const products = [
     price: 130000,
     quantity: 60,
     type: "T-shirts",
+    status: "pending",
     image: "images/tshirts/basic-pocket-tee.jpg",
   },
   {
@@ -77,6 +86,7 @@ const products = [
     price: 140000,
     quantity: 48,
     type: "T-shirts",
+    status: "pending",
     image: "images/tshirts/heather-grey-tee.jpg",
   },
   {
@@ -85,6 +95,7 @@ const products = [
     price: 250000,
     quantity: 40,
     type: "Shirts",
+    status: "pending",
     image: "images/shirts/blue-denim-shirt.jpg",
   },
   {
@@ -93,21 +104,24 @@ const products = [
     price: 270000,
     quantity: 35,
     type: "Shirts",
+    status: "pending",
     image: "images/shirts/white-formal-shirt.jpg",
   },
   {
     id: "PRD013",
     name: "Casual Checked Shirt",
     price: 240000,
-    quantity: 50,
+    quantity: 0,
     type: "Shirts",
+    status: "soldout",
     image: "images/shirts/casual-checked-shirt.jpg",
   },
   {
     id: "PRD014",
     name: "Linen Beach Shirt",
     price: 300000,
-    quantity: 20,
+    quantity: 0,
+    status: "soldout",
     type: "Shirts",
     image: "images/shirts/linen-beach-shirt.jpg",
   },
@@ -115,7 +129,8 @@ const products = [
     id: "PRD015",
     name: "Black Satin Shirt",
     price: 350000,
-    quantity: 25,
+    quantity: 0,
+    status: "soldout",
     type: "Shirts",
     image: "images/shirts/black-satin-shirt.jpg",
   },
@@ -123,7 +138,8 @@ const products = [
     id: "PRD016",
     name: "Floral Print Shirt",
     price: 260000,
-    quantity: 30,
+    quantity: 0,
+    status: "soldout",
     type: "Shirts",
     image: "images/shirts/floral-print-shirt.jpg",
   },
@@ -131,7 +147,8 @@ const products = [
     id: "PRD017",
     name: "Pink Oxford Shirt",
     price: 280000,
-    quantity: 45,
+    quantity: 0,
+    status: "soldout",
     type: "Shirts",
     image: "images/shirts/pink-oxford-shirt.jpg",
   },
@@ -139,7 +156,8 @@ const products = [
     id: "PRD018",
     name: "Grey Slim Fit Shirt",
     price: 310000,
-    quantity: 18,
+    quantity: 0,
+    status: "soldout",
     type: "Shirts",
     image: "images/shirts/grey-slim-fit-shirt.jpg",
   },
@@ -149,7 +167,8 @@ const products = [
     price: 290000,
     quantity: 25,
     type: "Shirts",
-    image: "images/shirts/striped-office-shirt.jpg",
+
+status: "ready",    image: "images/shirts/striped-office-shirt.jpg",
   },
   {
     id: "PRD020",
@@ -157,7 +176,8 @@ const products = [
     price: 320000,
     quantity: 20,
     type: "Shirts",
-    image: "images/shirts/denim-snap-button-shirt.jpg",
+
+status: "ready",    image: "images/shirts/denim-snap-button-shirt.jpg",
   },
   {
     id: "PRD021",
@@ -165,6 +185,7 @@ const products = [
     price: 750000,
     quantity: 20,
     type: "Jackets",
+    status: "ready",
     image: "images/jackets/black-leather-jacket.jpg",
   },
   {
@@ -173,6 +194,7 @@ const products = [
     price: 600000,
     quantity: 22,
     type: "Jackets",
+    status: "ready",
     image: "images/jackets/green-parka-jacket.jpg",
   },
   {
@@ -181,6 +203,7 @@ const products = [
     price: 550000,
     quantity: 15,
     type: "Jackets",
+    status: "ready",
     image: "images/jackets/denim-trucker-jacket.jpg",
   },
   {
@@ -189,6 +212,7 @@ const products = [
     price: 850000,
     quantity: 10,
     type: "Jackets",
+    status: "ready",
     image: "images/jackets/brown-suede-jacket.jpg",
   },
   {
@@ -197,6 +221,7 @@ const products = [
     price: 680000,
     quantity: 18,
     type: "Jackets",
+    status: "ready",
     image: "images/jackets/red-bomber-jacket.jpg",
   },
   {
@@ -205,6 +230,7 @@ const products = [
     price: 450000,
     quantity: 35,
     type: "Jackets",
+    status: "pending",
     image: "images/jackets/fleece-zip-up-jacket.jpg",
   },
   {
@@ -213,6 +239,7 @@ const products = [
     price: 950000,
     quantity: 12,
     type: "Jackets",
+    status: "pending",
     image: "images/jackets/quilted-down-jacket.jpg",
   },
   {
@@ -221,6 +248,7 @@ const products = [
     price: 500000,
     quantity: 25,
     type: "Jackets",
+    status: "pending",
     image: "images/jackets/rainproof-windbreaker.jpg",
   },
   {
@@ -229,6 +257,7 @@ const products = [
     price: 1200000,
     quantity: 8,
     type: "Jackets",
+    status: "pending",
     image: "images/jackets/double-breasted-coat.jpg",
   },
   {
@@ -237,6 +266,7 @@ const products = [
     price: 1100000,
     quantity: 5,
     type: "Jackets",
+    status: "pending",
     image: "images/jackets/navy-wool-blazer.jpg",
   },
   {
@@ -245,6 +275,7 @@ const products = [
     price: 750000,
     quantity: 18,
     type: "Dresses",
+    status: "pending",
     image: "images/dresses/maxi-floral-dress.jpg",
   },
   {
@@ -253,46 +284,52 @@ const products = [
     price: 850000,
     quantity: 15,
     type: "Dresses",
+    status: "pending",
     image: "images/dresses/red-cocktail-dress.jpg",
   },
   {
     id: "PRD033",
     name: "Black Sheath Dress",
     price: 900000,
-    quantity: 20,
+    quantity: 0,
     type: "Dresses",
+    status: "soldout",
     image: "images/dresses/black-sheath-dress.jpg",
   },
   {
     id: "PRD034",
     name: "Casual Summer Dress",
     price: 550000,
-    quantity: 25,
+    quantity: 0,
     type: "Dresses",
+    status: "soldout",
     image: "images/dresses/casual-summer-dress.jpg",
   },
   {
     id: "PRD035",
     name: "Long Sleeve Evening Dress",
     price: 1200000,
-    quantity: 10,
+    quantity: 0,
     type: "Dresses",
+    status: "soldout",
     image: "images/dresses/long-sleeve-evening-dress.jpg",
   },
   {
     id: "PRD036",
     name: "A-line Wedding Dress",
     price: 2500000,
-    quantity: 5,
+    quantity: 0,
     type: "Dresses",
+    status: "soldout",
     image: "images/dresses/a-line-wedding-dress.jpg",
   },
   {
     id: "PRD037",
     name: "Striped Mini Dress",
     price: 400000,
-    quantity: 30,
+    quantity: 0,
     type: "Dresses",
+    status: "soldout",
     image: "images/dresses/striped-mini-dress.jpg",
   },
   {
@@ -301,6 +338,7 @@ const products = [
     price: 300000,
     quantity: 40,
     type: "Skirts",
+    status: "pending",
     image: "images/skirts/plaid-pencil-skirt.jpg",
   },
   {
@@ -309,6 +347,7 @@ const products = [
     price: 350000,
     quantity: 20,
     type: "Skirts",
+    status: "pending",
     image: "images/skirts/denim-a-line-skirt.jpg",
   },
   {
@@ -317,6 +356,7 @@ const products = [
     price: 400000,
     quantity: 30,
     type: "Skirts",
+    status: "pending",
     image: "images/skirts/leather-mini-skirt.jpg",
   },
   {
@@ -325,6 +365,7 @@ const products = [
     price: 500000,
     quantity: 18,
     type: "Skirts",
+    status: "pending",
     image: "images/skirts/high-waisted-pleated-skirt.jpg",
   },
   {
@@ -333,6 +374,7 @@ const products = [
     price: 600000,
     quantity: 25,
     type: "Skirts",
+    status: "pending",
     image: "images/skirts/tulle-midi-skirt.jpg",
   },
   {
@@ -341,6 +383,7 @@ const products = [
     price: 700000,
     quantity: 12,
     type: "Skirts",
+    status: "ready",
     image: "images/skirts/black-satin-skirt.jpg",
   },
   {
@@ -349,6 +392,7 @@ const products = [
     price: 550000,
     quantity: 28,
     type: "Skirts",
+    status: "ready",
     image: "images/skirts/floral-wrap-skirt.jpg",
   },
   {
@@ -357,6 +401,7 @@ const products = [
     price: 320000,
     quantity: 35,
     type: "Skirts",
+    status: "ready",
     image: "images/skirts/tartan-check-skirt.jpg",
   },
   {
@@ -365,6 +410,7 @@ const products = [
     price: 500000,
     quantity: 40,
     type: "Shoes",
+    status: "ready",
     image: "images/shoes/chunky-white-sneakers.jpg",
   },
   {
@@ -373,6 +419,7 @@ const products = [
     price: 600000,
     quantity: 25,
     type: "Shoes",
+    status: "ready",
     image: "images/shoes/black-ankle-boots.jpg",
   },
   {
@@ -381,6 +428,7 @@ const products = [
     price: 700000,
     quantity: 30,
     type: "Shoes",
+    status: "ready",
     image: "images/shoes/leather-loafers.jpg",
   },
   {
@@ -389,16 +437,18 @@ const products = [
     price: 800000,
     quantity: 20,
     type: "Shoes",
+    status: "ready",
     image: "images/shoes/red-heels.jpg",
   },
   {
     id: "PRD050",
     name: "White Sneakers",
     price: 450000,
-    quantity: 50,
+    quantity: 0,
     type: "Shoes",
+    status: "soldout",
     image: "images/shoes/white-sneakers.jpg",
   },
 ];
 
-export { products };
+export { getProducts };
