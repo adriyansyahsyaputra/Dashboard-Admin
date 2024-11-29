@@ -1,17 +1,28 @@
 import React from "react";
-import { EllipsisVertical} from "lucide-react";
+import { EllipsisVertical } from "lucide-react";
 import DropdownMenu from "./DropdownMenu";
 import PropTypes from "prop-types";
 
 const ProductTable = ({
   products,
-  formatPrice,
-  getStatusColor,
   handleEdit,
   handleDelete,
   toggleDropdown,
   dropdownOpen,
 }) => {
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Ready":
+        return "bg-green-100 text-green-800";
+      case "Pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "Soldout":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
   return (
     <div className="overflow-x-auto rounded-lg border mt-4">
       <table className="w-full">
@@ -58,7 +69,10 @@ const ProductTable = ({
                 {product.name}
               </td>
               <td className="p-4 text-sm text-gray-900">
-                {formatPrice(product.price)}
+                {product.price.toLocaleString("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                })}
               </td>
               <td className="p-4 text-sm text-gray-900">{product.type}</td>
               <td className="p-4">
@@ -98,7 +112,6 @@ const ProductTable = ({
 
 export default ProductTable;
 
-
 ProductTable.propTypes = {
   products: PropTypes.array.isRequired,
   formatPrice: PropTypes.func.isRequired,
@@ -106,5 +119,9 @@ ProductTable.propTypes = {
   handleEdit: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
   toggleDropdown: PropTypes.func.isRequired,
-  dropdownOpen: PropTypes.oneOf([null, "string", "number"]),
+  dropdownOpen: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.oneOf([null]),
+  ]),
 };

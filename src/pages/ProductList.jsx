@@ -8,16 +8,14 @@ import { X } from "lucide-react";
 import Card from "../components/Fragments/Card";
 import HeaderProductList from "../components/Layouts/ProductsList/HeaderProductList";
 import { getProducts } from "../components/utils/products";
-import FormEdit from "../components/Fragments/FormEdit";
+import FormEdit from "../components/Fragments/FormEditModal";
+import FormUpload from "../components/Fragments/FormUploadModal";
 
 export default function ProductList() {
   const [products, setProducts] = useState(getProducts);
   const ItemsPerPage = 10;
 
   // State management
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [typeFilter, setTypeFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -25,6 +23,10 @@ export default function ProductList() {
   const [productToDelete, setProductToDelete] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
   // Data produk yang ditampilkan berdasarkan halaman aktif
   const currentProducts = products.slice(
@@ -40,18 +42,21 @@ export default function ProductList() {
     setCurrentPage(page);
   };
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "ready":
-        return "bg-green-100 text-green-800";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800";
-      case "soldout":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
+  // Fungsi untuk Search Filter
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    // Filter berdasarkan status
+    const matchesStatus =
+      statusFilter === "all" || product.status === statusFilter;
+
+    // Filter berdasarkan type
+    const matchesType = typeFilter === "all" || product.type === typeFilter;
+
+    return matchesSearch && matchesStatus && matchesType;
+  });
 
   // Fungsi edit produk
   const handleEdit = (product) => {
@@ -76,19 +81,18 @@ export default function ProductList() {
   const confirmDelete = () => {
     console.log("Deleting product:", productToDelete.id);
     setIsDeleteDialogOpen(false);
-    setProductToDelete(null);
-  };
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-    }).format(price);
+    setProducts((prevProducts) =>
+      prevProducts.filter((product) => product.id !== productToDelete.id)
+    );
   };
-
   // Toggle dropdown visibility
   const toggleDropdown = (productId) => {
     setDropdownOpen(dropdownOpen === productId ? null : productId);
+  };
+
+  const handleAddProduct = (newProduct) => {
+    setProducts((prevProduct) => [...prevProduct, newProduct]);
   };
 
   // Close dropdown when clicking outside
@@ -148,28 +152,35 @@ export default function ProductList() {
 
             <div className="w-full p-6 mt-8 bg-white shadow-md rounded-lg">
               {/* Header */}
-              <HeaderProductList />
+              <HeaderProductList setIsUploadModalOpen={setIsUploadModalOpen} />
 
               {/* Search and Filters */}
               <SearchFilter
                 searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
+                onSearchChange={setSearchQuery}
                 statusFilter={statusFilter}
-                setStatusFilter={setStatusFilter}
+                onStatusChange={setStatusFilter}
                 typeFilter={typeFilter}
-                setTypeFilter={setTypeFilter}
+                onTypeChange={setTypeFilter}
               />
 
               {/* Product Table */}
-              <ProductTable
-                products={currentProducts}
-                formatPrice={formatPrice}
-                getStatusColor={getStatusColor}
-                handleEdit={handleEdit}
-                handleDelete={handleDelete}
-                toggleDropdown={toggleDropdown}
-                dropdownOpen={dropdownOpen}
-              />
+              {filteredProducts.length > 0 ? (
+                <ProductTable
+                  products={filteredProducts.slice(
+                    (currentPage - 1) * ItemsPerPage,
+                    currentPage * ItemsPerPage
+                  )}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                  toggleDropdown={toggleDropdown}
+                  dropdownOpen={dropdownOpen}
+                />
+              ) : (
+                <div className="text-center text-gray-500 py-6">
+                  <p>Product not found</p>
+                </div>
+              )}
 
               {/* Pagination */}
               <Pagination
@@ -184,6 +195,14 @@ export default function ProductList() {
                   selectedProduct={selectedProduct}
                   setIsEditModalOpen={setIsEditModalOpen}
                   onSave={handleSaveChanges}
+                />
+              )}
+
+              {/* Modal Upload */}
+              {isUploadModalOpen && (
+                <FormUpload
+                  setIsUploadModalOpen={setIsUploadModalOpen}
+                  handleAddProduct={handleAddProduct}
                 />
               )}
 
