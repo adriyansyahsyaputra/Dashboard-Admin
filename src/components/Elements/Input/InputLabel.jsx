@@ -12,10 +12,11 @@ export default function InputLabel({
   value,
   onChange,
   className,
+  icon
 }) {
   return (
     <>
-      <Label htmlFor={htmlFor}>{label}</Label>
+      <Label htmlFor={htmlFor}>{icon}{label}</Label>
       <Input
         id={id}
         type={type}
@@ -37,4 +38,5 @@ InputLabel.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   className: PropTypes.string,
+  icon: PropTypes.string
 };

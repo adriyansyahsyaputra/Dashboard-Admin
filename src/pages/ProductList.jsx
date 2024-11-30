@@ -28,6 +28,23 @@ export default function ProductList() {
   const [typeFilter, setTypeFilter] = useState("all");
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
+  // Fungsi untuk menghitung stats products
+  const stats = products.reduce(
+    (acc, product) => {
+      acc.totalProducts += 1;
+      acc.totalQuantity += product.quantity;
+
+      if (product.status === "Ready") {
+        acc.readyProducts += 1;
+      } else if (product.status === "Soldout") {
+        acc.soldoutProducts += 1;
+      }
+
+      return acc;
+    },
+    { totalProducts: 0, totalQuantity: 0, readyProducts: 0, soldoutProducts: 0 }
+  )
+
   // Data produk yang ditampilkan berdasarkan halaman aktif
   const currentProducts = products.slice(
     (currentPage - 1) * ItemsPerPage,
@@ -130,16 +147,16 @@ export default function ProductList() {
               {[
                 {
                   title: "Total Products",
-                  value: "1,234",
+                  value: stats.totalProducts,
                   color: "bg-blue-500",
                 },
                 {
                   title: "Quantity",
-                  value: "567",
+                  value: stats.totalQuantity,
                   color: "bg-green-500",
                 },
-                { title: "Stock Ready", value: "89", color: "bg-yellow-500" },
-                { title: "Soldout", value: "345", color: "bg-purple-500" },
+                { title: "Stock Ready", value: stats.readyProducts, color: "bg-yellow-500" },
+                { title: "Soldout", value: stats.soldoutProducts, color: "bg-purple-500" },
               ].map((card) => (
                 <Card
                   key={card.title}

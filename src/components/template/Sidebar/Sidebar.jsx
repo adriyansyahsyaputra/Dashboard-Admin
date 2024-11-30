@@ -27,7 +27,16 @@ const menuItems = [
       { name: "Products Upload", to: "/products/upload" },
     ],
   },
-  { name: "Users", icon: Users, to: "/users" },
+  {
+    name: "Users",
+    icon: Users,
+    hasDropdown: true,
+    dropdownItems: [
+      { name: "Users List", to: "/users/list" },
+      { name: "Users add", to: "/users/add" },
+      { name: "Log Activity", to: "/users/activity" }
+    ]
+  },
   { name: "Settings", icon: Settings, to: "/settings" },
   { name: "Message", icon: MessageSquare, to: "/messages" },
   { name: "History", icon: History, to: "/history" },
