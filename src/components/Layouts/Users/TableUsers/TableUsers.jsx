@@ -1,35 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Eye, EyeOff, MoreVertical, Pencil, Trash2 } from "lucide-react";
 
 const TableUsers = () => {
   const [visiblePasswords, setVisiblePasswords] = useState({});
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [users, setUsers] = useState([
-    {
-      id: "ADM001",
-      name: "John Doe",
-      email: "john.doe@example.com",
-      password: "securePassword123",
-      role: "Admin",
-      birthDate: "1990-05-15",
-    },
-    {
-      id: "HLP002",
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      password: "helperPass456",
-      role: "Helper",
-      birthDate: "1992-08-22",
-    },
-    {
-      id: "STF003",
-      name: "Mike Johnson",
-      email: "mike.johnson@example.com",
-      password: "staffPassword789",
-      role: "Staff",
-      birthDate: "1988-11-30",
-    },
-  ]);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const storedUsers = localStorage.getItem("users");
+    if (storedUsers) {
+      setUsers(JSON.parse(storedUsers));
+    }
+  }, []);
 
   const togglePasswordVisibility = (userId) => {
     setVisiblePasswords((prev) => ({
@@ -88,9 +70,9 @@ const TableUsers = () => {
         </thead>
         <tbody className="divide-y divide-gray-200">
           {users.map((user) => (
-            <tr key={user.id} className="hover:bg-gray-50 transition-colors">
+            <tr key={user.userId} className="hover:bg-gray-50 transition-colors">
               <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
-                {user.id}
+                {user.userId}
               </td>
               <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
                 {user.name}
@@ -100,17 +82,17 @@ const TableUsers = () => {
               </td>
               <td className="px-4 py-3 whitespace-nowrap text-sm">
                 <div className="flex items-center space-x-2">
-                  {visiblePasswords[user.id]
+                  {visiblePasswords[user.userId]
                     ? user.password
                     : "*".repeat(user.password.length)}
                   <button
-                    onClick={() => togglePasswordVisibility(user.id)}
+                    onClick={() => togglePasswordVisibility(user.userId)}
                     className="text-gray-500 hover:text-gray-700"
                   >
-                    {visiblePasswords[user.id] ? (
-                      <EyeOff size={16} />
-                    ) : (
+                    {visiblePasswords[user.userId] ? (
                       <Eye size={16} />
+                    ) : (
+                      <EyeOff size={16} />
                     )}
                   </button>
                 </div>
@@ -125,17 +107,17 @@ const TableUsers = () => {
                 </span>
               </td>
               <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                {user.birthDate}
+                {user.birthdate}
               </td>
               <td className="px-4 py-3 whitespace-nowrap text-right">
                 <div className="relative">
                   <button
-                    onClick={() => toggleDropdown(user.id)}
+                    onClick={() => toggleDropdown(user.userId)}
                     className="text-gray-500 hover:text-gray-700 focus:outline-none"
                   >
                     <MoreVertical size={20} />
                   </button>
-                  {activeDropdown === user.id && (
+                  {activeDropdown === user.userId && (
                     <div className="absolute right-0 z-10 w-48 origin-top-right rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="py-1">
                         <button className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">

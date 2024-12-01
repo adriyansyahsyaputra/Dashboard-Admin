@@ -11,36 +11,19 @@ import {
 } from "lucide-react";
 
 export default function FormAddUser() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    birthDate: "",
-    role: "",
-    profileImage: null,
-  });
-
-  const [passwordError, setPasswordError] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [birthdate, setBirthdate] = useState("");
+  const [role, setRole] = useState("");
   const [profilePreview, setProfilePreview] = useState(null);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    // Clear password error when typing
-    if (name === "confirmPassword") {
-      setPasswordError("");
-    }
-  };
+  const [message, setMessage] = useState("");
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData((prev) => ({
+      setProfilePreview((prev) => ({
         ...prev,
         profileImage: file,
       }));
@@ -66,40 +49,53 @@ export default function FormAddUser() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Password validation
-    if (formData.password !== formData.confirmPassword) {
-      setPasswordError("Passwords do not match");
+    // Generate User ID based on role
+    const userId = generateUserId(role);
+
+    let users = [];
+    try {
+      const storedUsers = localStorage.getItem("users");
+      users = storedUsers ? JSON.parse(storedUsers) : [];
+    } catch (err) {
+      console.error(err);
+      users = [];
+    }
+
+    // Validasi jika username sudah ada
+    const isUserExist = users.some(
+      (user) => user.email === email || user.name === name
+    );
+
+    if (isUserExist) {
+      setMessage("User name or email already exists.");
       return;
     }
 
-    // Generate User ID based on role
-    const userId = generateUserId(formData.role);
+    // Validasi jika password tidak sesuai
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match.");
+      return;
+    }
 
-    // Prepare submission data
-    const submissionData = {
-      ...formData,
-      id: userId,
-    };
+    // Simpan data user ke local storage
+    const newUser = { userId, name, email, password, role, birthdate, profilePreview };
+    localStorage.setItem("users", JSON.stringify([...users, newUser]));
 
-    // Here you would typically send this to your backend
-    console.log("Submitting user data:", submissionData);
-
-    // Reset form after submission
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      birthDate: "",
-      role: "",
-      profileImage: null,
-    });
+    // Reset input
+    setName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setBirthdate("");
+    setRole("");
     setProfilePreview(null);
+    setMessage("");
+
   };
 
   return (
     <>
-      <form className="p-6 space-y-6">
+      <form className="p-6 space-y-6" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Profile Image Upload */}
           <div className="col-span-full flex justify-center">
@@ -138,6 +134,8 @@ export default function FormAddUser() {
               id="name"
               placeholder="Enter your name"
               className="focus:ring-2 focus:ring-blue-500"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
 
@@ -151,6 +149,8 @@ export default function FormAddUser() {
               id="email"
               placeholder="Enter your email"
               className="focus:ring-2 focus:ring-blue-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -164,6 +164,8 @@ export default function FormAddUser() {
               id="password"
               placeholder="Enter your password"
               className="focus:ring-2 focus:ring-blue-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
@@ -177,13 +179,15 @@ export default function FormAddUser() {
               id="confirmPassword"
               placeholder="Confirm your password"
               className={`focus:ring-2 focus:ring-blue-500  ${
-                passwordError
+                message
                   ? "border-red-500 focus:ring-red-500"
                   : "focus:ring-blue-500"
               }`}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
-            {passwordError && (
-              <p className="text-red-500 text-xs mt-1">{passwordError}</p>
+            {message && (
+              <p className="text-red-500 text-xs mt-1">{message}</p>
             )}
           </div>
 
@@ -197,6 +201,8 @@ export default function FormAddUser() {
               id="birthDate"
               placeholder="Enter your birth date"
               className="focus:ring-2 focus:ring-blue-500"
+              value={birthdate}
+              onChange={(e) => setBirthdate(e.target.value)}
             />
           </div>
 
@@ -207,8 +213,8 @@ export default function FormAddUser() {
             </label>
             <select
               name="role"
-              value={formData.role}
-              onChange={handleInputChange}
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
               required
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >

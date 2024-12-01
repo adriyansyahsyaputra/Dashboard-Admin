@@ -11,5 +11,5 @@ export default function Label({ htmlFor, children, icon }) {
 Label.propTypes = {
     htmlFor: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
-    icon: PropTypes.string
+    icon: PropTypes.element
 }

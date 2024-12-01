@@ -38,5 +38,5 @@ InputLabel.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   className: PropTypes.string,
-  icon: PropTypes.string
-};
+  icon: PropTypes.element
+}
