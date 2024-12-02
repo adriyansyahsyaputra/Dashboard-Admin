@@ -10,6 +10,8 @@ import UsersList from "./pages/UsersList"
 import LogActivityUsers from "./pages/LogActivityUsers"
 import AddNewUser from "./pages/AddNewUser"
 import FormAddUser from "./components/Fragments/FormAddUser"
+import Login from "./pages/Login"
+import ProtectedRoute from "./components/Protected/ProtectedRoute"
 
 function App() {
 
@@ -26,8 +28,13 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/users/list" element={<UsersList />} />
           <Route path="/users/activity" element={<LogActivityUsers />} />
-          <Route path="/users/add" element={<AddNewUser/>} />
+          <Route path="/users/add" element={
+            <ProtectedRoute allowedRoles={["Admin"]}>
+            <AddNewUser/>
+            </ProtectedRoute>
+            } />
           <Route path="/users/addd" element={<FormAddUser/>} />
+          <Route path="/login" element={<Login/>} />
         </Routes>
       </Router>
     </>
