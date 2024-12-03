@@ -8,49 +8,14 @@ import {
   Activity,
   Calendar,
 } from "lucide-react";
+import { useLogContext } from "../../../../context/LogContext";
 
 const LogActivity = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
 
-  const activityLogs = [
-    {
-      id: 1,
-      user: "John Doe",
-      timestamp: "2024-02-15 10:45:22",
-      action: "User Created",
-      description: "Created new user account for Sarah Johnson",
-      module: "User Management",
-      ipAddress: "192.168.1.100",
-    },
-    {
-      id: 2,
-      user: "John Doe",
-      timestamp: "2024-02-15 11:20:15",
-      action: "Data Updated",
-      description: "Updated staff member profile",
-      module: "Employee Records",
-      ipAddress: "192.168.1.100",
-    },
-    {
-      id: 3,
-      user: "Mike Johnson",
-      timestamp: "2024-02-15 14:30:45",
-      action: "System Login",
-      description: "Logged into admin dashboard",
-      module: "Authentication",
-      ipAddress: "192.168.1.105",
-    },
-    {
-      id: 4,
-      user: "Jane Smith",
-      timestamp: "2024-02-15 15:55:30",
-      action: "Permission Changed",
-      description: "Modified user role permissions",
-      module: "Access Control",
-      ipAddress: "192.168.1.110",
-    },
-  ];
+  const { logs } = useLogContext();
+  console.log("Logs:", logs);
 
   const filterOptions = [
     "All",
@@ -75,13 +40,6 @@ const LogActivity = () => {
     }
   };
 
-  const filteredLogs = activityLogs.filter(
-    (log) =>
-      (selectedFilter === "All" || log.module === selectedFilter) &&
-      (log.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        log.description.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
 
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden">
@@ -147,8 +105,8 @@ const LogActivity = () => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {filteredLogs.map((log) => (
-            <tr key={log.id} className="hover:bg-gray-50 transition-colors">
+          {logs.map((log, index) => (
+            <tr key={index} className="hover:bg-gray-50 transition-colors">
               <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
                 {log.user}
               </td>
@@ -156,13 +114,7 @@ const LogActivity = () => {
                 {log.timestamp}
               </td>
               <td className="px-4 py-3">
-                <span
-                  className={`px-2 py-1 rounded-full text-xs font-medium ${getActionColor(
-                    log.action
-                  )}`}
-                >
-                  {log.action}
-                </span>
+               {log.action}   
               </td>
               <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
                 {log.module}
@@ -179,16 +131,16 @@ const LogActivity = () => {
       </table>
 
       {/* No Results State */}
-      {filteredLogs.length === 0 && (
+      {/* {filteredLogs.length === 0 && (
         <div className="text-center py-10 text-gray-500">
           <p>No activity logs found</p>
         </div>
-      )}
+      )} */}
 
       {/* Pagination */}
       <div className="bg-gray-50 px-6 py-4 border-t flex justify-between items-center">
         <span className="text-sm text-gray-600">
-          Showing {filteredLogs.length} of {activityLogs.length} logs
+          Showing 1 of 3 logs
         </span>
         <div className="space-x-2">
           <button className="px-4 py-2 bg-white border rounded-lg hover:bg-gray-100">

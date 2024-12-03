@@ -13,35 +13,35 @@ const FormLogin = () => {
     return token;
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+const handleLogin = (e) => {
+  e.preventDefault();
 
-    // Ambil data dari users di local storage
-    let users = [];
-    try {
-      const storedUser = localStorage.getItem("users");
-      users = storedUser ? JSON.parse(storedUser) : [];
-    } catch (err) {
-      console.error(err);
-      users = [];
-    }
+  // Ambil data dari users di local storage
+  let users = [];
+  try {
+    const storedUser = localStorage.getItem("users");
+    users = storedUser ? JSON.parse(storedUser) : [];
+  } catch (err) {
+    console.error(err);
+    users = [];
+  }
 
-    // Cari user berdasarkan name dan password serta role
-    const user = users.find(
-      (user) =>
-        user.name === username &&
-        user.password === password
-    );
+  // Cari user berdasarkan name dan password serta role
+  const user = users.find(
+    (user) => user.name === username && user.password === password
+  );
 
-    if (user) {
-      // Jika user ditemukan, simpan token ke localStorage
-      localStorage.setItem("token", generateToken());
-      localStorage.setItem("role", user.role); 
-      navigate("/");
-    } else {
-      setMessage("Invalid username or password.");
-    }
-  };
+  if (user) {
+    // Jika user ditemukan, simpan token dan user ke localStorage
+    const token = generateToken();
+    localStorage.setItem("token", token);
+    localStorage.setItem("role", user.role);
+    localStorage.setItem("currentUser", JSON.stringify(user)); // Simpan user yang login
+    navigate("/");
+  } else {
+    setMessage("Invalid username or password.");
+  }
+};
 
   return (
     <form onSubmit={handleLogin} className="p-8 space-y-6">

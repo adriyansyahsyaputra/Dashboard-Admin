@@ -6,25 +6,30 @@ export default function HeaderNav() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  console.log(user);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Mengambil data pengguna dari localStorage
  useEffect(() => {
-   const storedUser = localStorage.getItem("user");
-   if (storedUser) {
-     setUser(JSON.parse(storedUser)); // Menyimpan data pengguna ke state
+   const token = localStorage.getItem("token");
+   if (token) {
+     const currentUser = localStorage.getItem("currentUser");
+     if (currentUser) {
+       setUser(JSON.parse(currentUser));
+     }
+   } else {
+     setUser(null);
    }
  }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    navigate("/login"); // Arahkan ke halaman login setelah logout
-  };
+const handleLogout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  localStorage.removeItem("currentUser");
+  navigate("/login");
+};
+
 
   return (
     <header className="bg-white shadow-sm">

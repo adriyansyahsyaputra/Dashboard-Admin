@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  const userRole = localStorage.getItem("role"); // Ambil role pengguna dari localStorage
+  const userRole = localStorage.getItem("role");
 
   if (!allowedRoles.includes(userRole)) {
     return <Navigate to="/" replace />; // Redirect ke halaman utama atau halaman yang sesuai

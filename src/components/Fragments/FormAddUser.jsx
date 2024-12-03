@@ -9,89 +9,105 @@ import {
   Shield,
   Upload,
 } from "lucide-react";
+import { useLogContext } from "../../context/LogContext";
 
 export default function FormAddUser() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [birthdate, setBirthdate] = useState("");
-  const [role, setRole] = useState("");
-  const [profilePreview, setProfilePreview] = useState(null);
-  const [message, setMessage] = useState("");
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [birthdate, setBirthdate] = useState("");
+    const [role, setRole] = useState("");
+    const [profilePreview, setProfilePreview] = useState(null);
+    const [message, setMessage] = useState("");
+    const { addLog } = useLogContext();
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfilePreview((prev) => ({
-        ...prev,
-        profileImage: file,
-      }));
+    const handleImageUpload = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        setProfilePreview((prev) => ({
+          ...prev,
+          profileImage: file,
+        }));
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const generateUserId = (role) => {
-    const prefix = {
-      Admin: "ADM",
-      Helper: "HLP",
-      Staff: "STF",
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setProfilePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
     };
-    const randomNum = Math.floor(100 + Math.random() * 900);
-    return `${prefix[role]}${randomNum}`;
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    const generateUserId = (role) => {
+      const prefix = {
+        Admin: "ADM",
+        Helper: "HLP",
+        Staff: "STF",
+      };
+      const randomNum = Math.floor(100 + Math.random() * 900);
+      return `${prefix[role]}${randomNum}`;
+    };
 
-    // Generate User ID based on role
-    const userId = generateUserId(role);
+    const handleSubmit = (e) => {
+      e.preventDefault();
 
-    let users = [];
-    try {
-      const storedUsers = localStorage.getItem("users");
-      users = storedUsers ? JSON.parse(storedUsers) : [];
-    } catch (err) {
-      console.error(err);
-      users = [];
-    }
+      // Generate User ID based on role
+      const userId = generateUserId(role);
 
-    // Validasi jika username sudah ada
-    const isUserExist = users.some(
-      (user) => user.email === email || user.name === name
-    );
+      let users = [];
+      try {
+        const storedUsers = localStorage.getItem("users");
+        users = storedUsers ? JSON.parse(storedUsers) : [];
+      } catch (err) {
+        console.error(err);
+        users = [];
+      }
 
-    if (isUserExist) {
-      setMessage("User name or email already exists.");
-      return;
-    }
+      // Validasi jika username sudah ada
+      const isUserExist = users.some(
+        (user) => user.email === email || user.name === name
+      );
 
-    // Validasi jika password tidak sesuai
-    if (password !== confirmPassword) {
-      setMessage("Passwords do not match.");
-      return;
-    }
+      if (isUserExist) {
+        setMessage("User name or email already exists.");
+        return;
+      }
 
-    // Simpan data user ke local storage
-    const newUser = { userId, name, email, password, role, birthdate, profilePreview };
-    localStorage.setItem("users", JSON.stringify([...users, newUser]));
+      // Validasi jika password tidak sesuai
+      if (password !== confirmPassword) {
+        setMessage("Passwords do not match.");
+        return;
+      }
 
-    // Reset input
-    setName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-    setBirthdate("");
-    setRole("");
-    setProfilePreview(null);
-    setMessage("");
+      // Simpan data user ke local storage
+      const newUser = {
+        userId,
+        name,
+        email,
+        password,
+        role,
+        birthdate,
+        profilePreview,
+      };
+      localStorage.setItem("users", JSON.stringify([...users, newUser]));
 
-  };
+      // Reset input
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setBirthdate("");
+      setRole("");
+      setProfilePreview(null);
+      setMessage("");
+
+      // Rekam aktivitas ke log
+      addLog(
+        "Add User",
+        "User Management",
+        `User ${name} added successfully`
+      );
+    };
 
   return (
     <>
@@ -186,9 +202,7 @@ export default function FormAddUser() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
-            {message && (
-              <p className="text-red-500 text-xs mt-1">{message}</p>
-            )}
+            {message && <p className="text-red-500 text-xs mt-1">{message}</p>}
           </div>
 
           {/* Birth Date */}
