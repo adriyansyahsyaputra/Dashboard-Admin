@@ -1,0 +1,42 @@
+{
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "language": "Language",
+    "accountSetting": "Account Setting",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "title": {
+        "generalSettings": "General Settings",
+        "accountSettings": "Account Settings",
+        "notificationSettings": "Notification Settings",
+        "systemSettings": "System Settings",
+        "customizationSettings": "Customization Settings"
+    },
+    "button": {
+        "deleteAccount": "Delete Account",
+        "createBackup": "Create Backup",
+        "restoreBackup": "Restore Backup",
+        "uploadLogo": "Upload Logo",
+        "saveChanges": "Save Changes"
+    },
+    "label": {
+        "twoFactorAuthentication": "Two-Factor Authentication",
+        "newProductNotifications": "New Product Notification",
+        "outOfStockAlerts": "Out of Stock Alerts",
+        "orderConfirmation": "Order Confirmation",
+        "promotionalEmails": "Promotional Emails",
+        "backupAndRestore": "Backup & Restore",
+        "maintenanceMode": "Maintenance Mode",
+        "colorScheme": "Color Scheme",
+        "displayOptions": "Display Options",
+        "layoutSettings": "Layout Settings",
+        "advancedSettings": "Advanced Settings",
+        "compactView": "Compact View",
+        "highContrast": "High Contrast",
+        "enableAnimation": "Enable Animation",
+        "enableNotifications": "Enable Notifications",
+        "showTooltips": "Show Tooltips"
+    }
+}

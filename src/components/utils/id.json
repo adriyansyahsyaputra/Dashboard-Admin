@@ -1,0 +1,42 @@
+{
+  "theme": "Tema",
+  "light": "Cahaya",
+  "dark": "Gelap",
+  "system": "Sistem",
+  "language": "Bahasa",
+  "accountSetting": "Pengaturan Akun",
+  "currentPassword": "Kata Sandi Saat Ini",
+  "newPassword": "Kata Sandi Baru",
+  "title": {
+    "generalSettings": "Pengaturan Umum",
+    "accountSettings": "Pengaturan Akun",
+    "notificationSettings": "Pengaturan Notifikasi",
+    "systemSettings": "Pengaturan Sistem",
+    "customization": "Kustomisasi"
+  },
+  "button": {
+    "deleteAccount": "Hapus Akun",
+    "createBackup": "Buat Cadangan",
+    "restoreBackup": "Pulihkan Cadangan",
+    "uploadLogo": "Unggah Logo",
+    "saveChanges": "Simpan Perubahan"
+  },
+  "label": {
+    "twoFactorAuthentication": "Autentikasi Dua Faktor",
+    "newProductNotifications": "Notifikasi Produk Baru",
+    "outOfStockAlerts": "Peringatan Stok Habis",
+    "orderConfirmation": "Konfirmasi Pesanan",
+    "promotionalEmails": "Email Promosi",
+    "backupAndRestore": "Cadangan & Pemulihan",
+    "maintenanceMode": "Mode Pemeliharaan",
+    "colorScheme": "Skema Warna",
+    "displayOptions": "Opsi Tampilan",
+    "layoutSettings": "Pengaturan Tata Letak",
+    "advancedSettings": "Pengaturan Lanjutan",
+    "compactView": "Tampilan Yang Ringkas",
+    "highContrast": "Mode Kontras Tinggi",
+    "enableAnimation": "Aktifkan Animasi",
+    "enableNotifications": "Aktifkan Notifikasi",
+    "showTooltips": "Tampilkan Keterangan Alat"
+  }
+}

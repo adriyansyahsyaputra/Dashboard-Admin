@@ -1,13 +1,16 @@
 import React from "react";
 import { Server, Lock, Layout, Upload } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function SystemSettings() {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-white rounded-lg shadow-md p-8 space-y-6 border border-gray-100">
       <div className="flex items-center justify-between border-b pb-4">
         <h1 className="text-3xl font-bold text-gray-800 flex items-center space-x-3">
           <Server className="h-8 w-8 text-blue-600" />
-          <span>System Settings</span>
+          <span>{}{t("title.systemSettings") || "System Settings"}</span>
         </h1>
       </div>
 
@@ -16,16 +19,16 @@ export default function SystemSettings() {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3">
               <Lock className="h-6 w-6 text-green-600" />
-              <span className="font-medium">Backup & Restore</span>
+              <span className="font-medium">{t("label.backupAndRestore")}</span>
             </div>
             <div className="flex space-x-4">
               <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition flex items-center space-x-2">
                 <Upload className="h-5 w-5" />
-                <span>Create Backup</span>
+                <span>{t("button.createBackup")}</span>
               </button>
               <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition flex items-center space-x-2">
                 <Upload className="h-5 w-5" />
-                <span>Restore Backup</span>
+                <span>{t("button.restoreBackup")}</span>
               </button>
             </div>
           </div>
@@ -35,7 +38,7 @@ export default function SystemSettings() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Layout className="h-6 w-6 text-purple-600" />
-              <span className="font-medium">Maintenance Mode</span>
+              <span className="font-medium">{t("label.maintenanceMode")}</span>
             </div>
             <label className="inline-flex items-center cursor-pointer">
               <input type="checkbox" className="sr-only peer" />

@@ -1,14 +1,17 @@
 import React from "react";
 import { Palette, Upload, Monitor, Layout, Settings } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function CustomizationSettings() {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-white rounded-lg shadow-md p-8 space-y-6 border border-gray-100">
       {/* Header */}
       <div className="flex items-center justify-between border-b pb-4">
         <h1 className="text-3xl font-bold text-gray-800 flex items-center space-x-3">
           <Palette className="h-8 w-8 text-blue-600" />
-          <span>Customization</span>
+          <span>{t("title.customizationSettings") || "Customization Settings"}</span>
         </h1>
       </div>
 
@@ -27,7 +30,7 @@ export default function CustomizationSettings() {
               </div>
               <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition flex items-center space-x-2">
                 <Upload className="h-5 w-5" />
-                <span>Upload Logo</span>
+                <span>{t("button.uploadLogo")}</span>
               </button>
             </div>
           </div>
@@ -38,7 +41,7 @@ export default function CustomizationSettings() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Palette className="h-6 w-6 text-purple-600" />
-              <span className="font-medium">Color Scheme</span>
+              <span className="font-medium">{t("label.colorScheme")}</span>
             </div>
             <div className="flex space-x-2">
               {[
@@ -61,7 +64,7 @@ export default function CustomizationSettings() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Monitor className="h-6 w-6 text-teal-600" />
-              <span className="font-medium">Display Options</span>
+              <span className="font-medium">{t("label.displayOptions")}</span>
             </div>
             <div className="space-y-2">
               <label className="flex items-center space-x-2">
@@ -69,14 +72,14 @@ export default function CustomizationSettings() {
                   type="checkbox"
                   className="form-checkbox text-blue-600 rounded focus:ring-blue-500"
                 />
-                <span>Compact View</span>
+                <span>{t("label.compactView")}</span>
               </label>
               <label className="flex items-center space-x-2">
                 <input
                   type="checkbox"
                   className="form-checkbox text-blue-600 rounded focus:ring-blue-500"
                 />
-                <span>High Contrast Mode</span>
+                <span>{t("label.highContrast")}</span>
               </label>
             </div>
           </div>
@@ -87,7 +90,7 @@ export default function CustomizationSettings() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Layout className="h-6 w-6 text-orange-600" />
-              <span className="font-medium">Layout Settings</span>
+              <span className="font-medium">{t("label.layoutSettings")}</span>
             </div>
             <div className="flex space-x-2">
               {["Default", "Grid", "Minimal"].map((layout) => (
@@ -107,7 +110,7 @@ export default function CustomizationSettings() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Settings className="h-6 w-6 text-yellow-600" />
-              <span className="font-medium">Advanced Settings</span>
+              <span className="font-medium">{t("label.advancedSettings")}</span>
             </div>
             <div className="space-y-2">
               <label className="flex items-center space-x-2">
@@ -115,21 +118,21 @@ export default function CustomizationSettings() {
                   type="checkbox"
                   className="form-checkbox text-yellow-600 rounded focus:ring-yellow-500"
                 />
-                <span>Enable Animations</span>
+                <span>{t("label.enableAnimation")}</span>
               </label>
               <label className="flex items-center space-x-2">
                 <input
                   type="checkbox"
                   className="form-checkbox text-yellow-600 rounded focus:ring-yellow-500"
                 />
-                <span>Enable Notifications</span>
+                <span>{t("label.enableNotifications")}</span>
               </label>
               <label className="flex items-center space-x-2">
                 <input
                   type="checkbox"
                   className="form-checkbox text-yellow-600 rounded focus:ring-yellow-500"
                 />
-                <span>Show Tooltips</span>
+                <span>{t("label.showTooltips")}</span>
               </label>
             </div>
           </div>

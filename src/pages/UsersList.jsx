@@ -1,10 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HeaderNav from "../components/template/HeaderNav/HeaderNav";
 import Sidebar from "../components/template/Sidebar/Sidebar";
 import TableUsers from "../components/Layouts/Users/TableUsers/TableUsers";
+import FormEditUser from "../components/Fragments/FormEditUser";
 
 export default function UsersList() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  useEffect(() => {
+    const storedUsers = localStorage.getItem("users");
+    if (storedUsers) {
+      setUsers(JSON.parse(storedUsers));
+    }
+  }, []);
+
+  const handleEditUser = (user) => {
+    setSelectedUser(user);
+    setIsEditModalOpen(true);
+  };
+
 
   return (
     <>
@@ -23,7 +40,11 @@ export default function UsersList() {
 
           <main className="p-6">
             <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-                <TableUsers />
+              <TableUsers />
+
+              {isEditModalOpen && (
+                <FormEditUser setIsEditModalOpen={setIsEditModalOpen} />
+              )}
             </div>
           </main>
         </div>

@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import ProductUpload from "./pages/ProductUpload"
 import Messages from "./pages/Messages"
 import Settings from "./pages/Settings"
 import DashboardPage from "./pages/Dashboard"
@@ -12,6 +11,7 @@ import AddNewUser from "./pages/AddNewUser"
 import FormAddUser from "./components/Fragments/FormAddUser"
 import Login from "./pages/Login"
 import ProtectedRoute from "./components/Protected/ProtectedRoute"
+import FormEditUser from "./components/Fragments/FormEditUser"
 
 function App() {
 
@@ -21,7 +21,6 @@ function App() {
         <Routes>
           <Route path="/" element={<DashboardPage />} />
           <Route path="/products/list" element={<ProductList />} />
-          <Route path="/products/upload" element={<ProductUpload />} />
           <Route path="/products/view" element={<ProductView />} />
           <Route path="/history" element={<History />} />
           <Route path="/messages" element={<Messages />} />
@@ -35,6 +34,7 @@ function App() {
             } />
           <Route path="/users/addd" element={<FormAddUser/>} />
           <Route path="/login" element={<Login/>} />
+          <Route path="/users/edit" element={<FormEditUser/>} />
         </Routes>
       </Router>
     </>

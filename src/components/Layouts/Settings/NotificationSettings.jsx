@@ -1,22 +1,25 @@
 import React from "react";
 import { Bell } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function NotificationSettings() {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-white rounded-lg shadow-md p-8 space-y-6 border border-gray-100">
       <div className="flex items-center justify-between border-b pb-4">
         <h1 className="text-3xl font-bold text-gray-800 flex items-center space-x-3">
           <Bell className="h-8 w-8 text-blue-600" />
-          <span>Notification Settings</span>
+          <span>{t("title.notificationSettings") || "Notification Settings"}</span>
         </h1>
       </div>
 
       <div className="space-y-4">
         {[
-          { label: "New Product Notifications", icon: Bell },
-          { label: "Out of Stock Alerts", icon: Bell },
-          { label: "Order Confirmation", icon: Bell },
-          { label: "Promotional Emails", icon: Bell },
+          { label: t("label.newProductNotifications"), icon: Bell },
+          { label: t("label.outOfStockAlerts"), icon: Bell },
+          { label: t("label.orderConfirmation"), icon: Bell },
+          { label: t("label.promotionalEmails"), icon: Bell },
         ].map((notification, index) => (
           <div
             key={index}

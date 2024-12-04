@@ -38,7 +38,6 @@ const menuItems = [
         to: "/products/view",
         roles: ["Admin", "Staff"],
       },
-      { name: "Products Upload", to: "/products/upload", roles: ["Admin"] },
     ],
   },
   {
