@@ -96,7 +96,6 @@ export default function ProductList() {
   };
 
   const confirmDelete = () => {
-    console.log("Deleting product:", productToDelete.id);
     setIsDeleteDialogOpen(false);
 
     setProducts((prevProducts) =>
@@ -229,7 +228,7 @@ export default function ProductList() {
                   {/* Background Overlay */}
                   <div
                     className="fixed inset-0 bg-black bg-opacity-60 z-40"
-                    onClick={() => setIsDeleteDialogOpen(false)} // Tutup modal jika overlay diklik
+                    onClick={() => setIsDeleteDialogOpen(false)}
                   ></div>
 
                   {/* Modal Dialog */}

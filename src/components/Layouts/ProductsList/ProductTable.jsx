@@ -114,8 +114,8 @@ export default ProductTable;
 
 ProductTable.propTypes = {
   products: PropTypes.array.isRequired,
-  formatPrice: PropTypes.func.isRequired,
-  getStatusColor: PropTypes.func.isRequired,
+  formatPrice: PropTypes.func,
+  getStatusColor: PropTypes.func,
   handleEdit: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
   toggleDropdown: PropTypes.func.isRequired,

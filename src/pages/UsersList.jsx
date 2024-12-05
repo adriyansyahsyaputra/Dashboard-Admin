@@ -11,9 +11,15 @@ export default function UsersList() {
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
-    const storedUsers = localStorage.getItem("users");
-    if (storedUsers) {
-      setUsers(JSON.parse(storedUsers));
+    try {
+      const storedUsers = localStorage.getItem("users");
+      if (storedUsers) {
+        setUsers(JSON.parse(storedUsers));
+      }
+    } catch (error) {
+      console.error("Error parsing users from localStorage:", error);
+      // Optionally, clear localStorage or set a default value
+      localStorage.removeItem("users");
     }
   }, []);
 
@@ -22,6 +28,42 @@ export default function UsersList() {
     setIsEditModalOpen(true);
   };
 
+  const generateUserId = (role) => {
+    const prefix = {
+      Admin: "ADM",
+      Helper: "HLP",
+      Staff: "STF",
+    };
+    const randomNum = Math.floor(100 + Math.random() * 900);
+    return `${prefix[role]}${randomNum}`;
+  };
+
+  const handleSaveUser = (updatedUser) => {
+    const updatedUsers = users.map((user) => {
+      if (user.id === selectedUser.id) {
+        return { ...user, ...updatedUser };
+      }
+      return user;
+    });
+
+    setUsers(updatedUsers);
+
+    // Simpan ke localStorage
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+    // Tutup modal edit
+    setIsEditModalOpen(false);
+  };
+
+  const handleDeleteUser = (userId) => {
+    const updatedUsers = users.filter((user) => user.id !== userId);
+
+    // Perbarui state
+    setUsers(updatedUsers);
+
+    // Simpan perubahan ke localStorage
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+  };
 
   return (
     <>
@@ -40,10 +82,19 @@ export default function UsersList() {
 
           <main className="p-6">
             <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-              <TableUsers />
+              <TableUsers
+                handleEditUser={handleEditUser}
+                users={users}
+                handleDeleteUser={handleDeleteUser}
+              />
 
               {isEditModalOpen && (
-                <FormEditUser setIsEditModalOpen={setIsEditModalOpen} />
+                <FormEditUser
+                  setIsEditModalOpen={setIsEditModalOpen}
+                  selectedUser={selectedUser}
+                  onSave={handleSaveUser}
+                  generateUserId={generateUserId}
+                />
               )}
             </div>
           </main>

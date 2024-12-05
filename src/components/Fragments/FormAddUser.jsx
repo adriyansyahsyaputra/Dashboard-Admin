@@ -81,7 +81,7 @@ export default function FormAddUser() {
 
       // Simpan data user ke local storage
       const newUser = {
-        userId,
+        id: userId,
         name,
         email,
         password,

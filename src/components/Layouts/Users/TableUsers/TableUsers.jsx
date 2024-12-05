@@ -1,27 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { Eye, EyeOff, MoreVertical, Pencil, Trash2 } from "lucide-react";
+import React, { useState } from "react";
+import { Eye, EyeOff, MoreVertical } from "lucide-react";
+import { DropdownUsers } from "./DropdownUsers";
+import PropTypes from "prop-types";
 
-const TableUsers = () => {
+const TableUsers = ({ handleEditUser, users, handleDeleteUser }) => {
   const [visiblePasswords, setVisiblePasswords] = useState({});
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    const storedUsers = localStorage.getItem("users");
-    if (storedUsers) {
-      setUsers(JSON.parse(storedUsers));
-    }
-  }, []);
-
-  const togglePasswordVisibility = (userId) => {
+  const togglePasswordVisibility = (id) => {
     setVisiblePasswords((prev) => ({
       ...prev,
-      [userId]: !prev[userId],
+      [id]: !prev[id],
     }));
   };
 
-  const toggleDropdown = (userId) => {
-    setActiveDropdown(activeDropdown === userId ? null : userId);
+  const toggleDropdown = (id) => {
+    setActiveDropdown(activeDropdown === id ? null : id);
   };
 
   const getRoleColor = (role) => {
@@ -70,9 +64,9 @@ const TableUsers = () => {
         </thead>
         <tbody className="divide-y divide-gray-200">
           {users.map((user) => (
-            <tr key={user.userId} className="hover:bg-gray-50 transition-colors">
+            <tr key={user.id} className="hover:bg-gray-50 transition-colors">
               <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
-                {user.userId}
+                {user.id}
               </td>
               <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
                 {user.name}
@@ -82,14 +76,14 @@ const TableUsers = () => {
               </td>
               <td className="px-4 py-3 whitespace-nowrap text-sm">
                 <div className="flex items-center space-x-2">
-                  {visiblePasswords[user.userId]
+                  {visiblePasswords[user.id]
                     ? user.password
                     : "*".repeat(user.password.length)}
                   <button
-                    onClick={() => togglePasswordVisibility(user.userId)}
+                    onClick={() => togglePasswordVisibility(user.id)}
                     className="text-gray-500 hover:text-gray-700"
                   >
-                    {visiblePasswords[user.userId] ? (
+                    {visiblePasswords[user.id] ? (
                       <Eye size={16} />
                     ) : (
                       <EyeOff size={16} />
@@ -112,22 +106,17 @@ const TableUsers = () => {
               <td className="px-4 py-3 whitespace-nowrap text-right">
                 <div className="relative">
                   <button
-                    onClick={() => toggleDropdown(user.userId)}
+                    onClick={() => toggleDropdown(user.id)}
                     className="text-gray-500 hover:text-gray-700 focus:outline-none"
                   >
                     <MoreVertical size={20} />
                   </button>
-                  {activeDropdown === user.userId && (
-                    <div className="absolute right-0 z-10 w-48 origin-top-right rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <div className="py-1">
-                        <button className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                          <Pencil size={16} className="mr-2" /> Edit
-                        </button>
-                        <button className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                          <Trash2 size={16} className="mr-2" /> Delete
-                        </button>
-                      </div>
-                    </div>
+                  {activeDropdown === user.id && (
+                    <DropdownUsers
+                      handleEditUser={handleEditUser}
+                      users={user}
+                      handleDeleteUser={handleDeleteUser}
+                    />
                   )}
                 </div>
               </td>
@@ -140,3 +129,9 @@ const TableUsers = () => {
 };
 
 export default TableUsers;
+
+TableUsers.propTypes = {
+  users: PropTypes.array.isRequired,
+  handleEditUser: PropTypes.func.isRequired,
+  handleDeleteUser: PropTypes.func.isRequired,
+};

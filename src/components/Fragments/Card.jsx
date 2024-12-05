@@ -14,5 +14,5 @@ export default function Card({ color, title, value }) {
 Card.propTypes = {
   color: PropTypes.string,
   title: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.number,
 };
