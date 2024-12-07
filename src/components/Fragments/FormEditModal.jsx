@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Edit, Save, X } from "lucide-react";
+import InputLabel from "../Elements/Input/InputLabel";
+import { useLogContext } from "../../context/LogContext";
 
 export default function FormEdit({
   selectedProduct,
@@ -14,6 +16,8 @@ export default function FormEdit({
     type: selectedProduct?.type || "t-shirts",
     status: "Ready",
   });
+
+  const { addLog } = useLogContext();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,6 +47,8 @@ export default function FormEdit({
     e.preventDefault();
     onSave({ ...selectedProduct, ...productData });
     setIsEditModalOpen(false);
+
+    addLog("Edit Product", "Product", `Edit product ${selectedProduct.name}`);
   };
 
   return (
@@ -63,58 +69,38 @@ export default function FormEdit({
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Product Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              value={productData.name}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-              required
+            <InputLabel 
+            htmlFor="Name"
+            label="Product Name"
+            type="text"
+            id="name"
+            value={productData.name}
+            onChange={handleChange}
+            className="border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label
-                htmlFor="price"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Price
-              </label>
-              <input
-                type="number"
-                name="price"
-                id="price"
-                value={productData.price}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                required
-                min="0"
+              <InputLabel 
+              htmlFor="Price"
+              label="Product Price"
+              type="number"
+              id="price"
+              value={productData.price}
+              onChange={handleChange}
+              className="border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all"
               />
             </div>
             <div>
-              <label
-                htmlFor="quantity"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Quantity
-              </label>
-              <input
-                type="number"
-                name="quantity"
-                id="quantity"
-                value={productData.quantity}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                required
-                min="0"
+              <InputLabel 
+              htmlFor="Quantity"
+              label="Quantity"
+              type="number"
+              id="quantity"
+              value={productData.quantity}
+              onChange={handleChange}
+              className="border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all"
               />
             </div>
           </div>
